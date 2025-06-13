@@ -1,6 +1,11 @@
 <?php
 require 'includes/db.php';
 require 'includes/auth.php';
+require 'includes/utils.php';
+
+if (getUserRole() === 'administrativo') {//antes de listar se da de baja (automatica) si pasaron mas de 4 años desde la fecha de suscripcion
+    verificarYDarBajaAutomatica($conn);
+}
 
 $rol = getUserRole();
 if (!in_array($rol, ['profesor', 'administrativo'])) {  //solo esta disponible la funcion listar para profesor y administrativo
