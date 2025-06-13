@@ -12,4 +12,4 @@ $stmt = $conn->prepare("UPDATE usuarios SET newsletter = 0 WHERE id_usuario = ?"
 $stmt->bind_param("i", $id);
 $stmt->execute();
 
-echo "✅ Usuario desuscripto del newsletter.";
+echo "Usuario desuscripto del newsletter.";

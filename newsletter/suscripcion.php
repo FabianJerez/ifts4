@@ -8,8 +8,8 @@ if (getUserRole() !== 'estudiante') {       //compruebo que sea un estudiante
 
 $id_usuario = $_SESSION['id_usuario'];
 
-$stmt = $conn->prepare("UPDATE usuarios SET newsletter = 1 WHERE id_usuario = ?");
+$stmt = $conn->prepare("UPDATE usuarios SET newsletter = 1, fecha_suscripcion = NOW() WHERE id_usuario = ?");
 $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 
-echo "✅ Te has suscripto al newsletter correctamente.";
+echo "Te has suscripto al newsletter correctamente.";
