@@ -1,63 +1,80 @@
 <?php
-require 'includes/db.php';                  // Conexión a la base de datos
-require 'includes/auth.php';                // Funciones de autenticación y control de rol
-require 'includes/utils.php';               // Funciones utilitarias (como la baja automática)
+require 'includes/db.php';                     // Conexión PDO a la base 'ifts4'
+require 'includes/auth.php';                   // Manejo de sesión y roles
 require 'includes/config.php';
-require 'includes/PHPMailer/PHPMailer.php'; // Clase principal de PHPMailer
-require 'includes/PHPMailer/Exception.php'; // Manejo de errores de PHPMailer
-require 'includes/PHPMailer/SMTP.php';      // Clase para configurar conexión SMTP
+require 'includes/utils.php';                  // Incluye la baja automática
+require 'includes/PHPMailer/PHPMailer.php';    // PHPMailer core
+require 'includes/PHPMailer/Exception.php';    // PHPMailer manejo de errores
+require 'includes/PHPMailer/SMTP.php';         // PHPMailer SMTP
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-if (!esAdministrativo()) {   //control de acceso por rol
+// Verifica que solo un usuario administrativo acceda
+if (!esAdministrativo()) {
     exit("Acceso denegado");
 }
 
-// Baja automática antes de recolectar destinatarios
+// Baja lógica automática antes de enviar
 verificarYDarBajaAutomatica($conn);
 
+// Si se envió el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $asunto = $_POST['asunto'] ?? '';
     $mensaje = $_POST['mensaje'] ?? '';
 
-    $result = $conn->query("SELECT email FROM usuarios WHERE newsletter = 1 AND activo = 1"); //consulta a la BD
+    // Obtener destinatarios con newsletter activo
+    $stmt = $conn->prepare("SELECT email, unsuscribe_token FROM usuarios WHERE newsletter = 1 AND activo = 1");
+    $stmt->execute();
+    $destinatarios = $stmt->fetchAll();
 
-    //Configuración de PHPMailer
-    $mail = new PHPMailer(true);                   // Se activa el modo "lanzar excepciones" para capturar errores
+    $mail = new PHPMailer(true);
 
     try {
-        $mail->isSMTP();                           // Indicamos que usaremos SMTP
-        $mail->Host = 'smtp.gmail.com';            // Servidor de Gmail
-        $mail->SMTPAuth = true;                    // Autenticación requerida
-        $mail->Username = GMAIL_USER;     // email del administrador
-        $mail->Password = GMAIL_APP_PASSWORD;   //La contraseña de aplicación generada          
-        $mail->SMTPSecure = 'tls';                 // Cifrado TLS
-        $mail->Port = 587;                         // Puerto de Gmail (TLS)
-        //configuracion del mensaje
-        $mail->setFrom('likid88@gmail.com', 'IFTS 4');  // Remitente
-        $mail->isHTML(true);                            // Indica que el mensaje es HTML
-        $mail->Subject = $asunto;
-        $mail->Body    = nl2br($mensaje);               // Convierte saltos de línea en <br> para HTML
+        // Configuración de Gmail
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = GMAIL_USER;                   // Recomendación: usar archivo config.php
+        $mail->Password = GMAIL_APP_PASSWORD;        // Contraseña de aplicación
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
 
-        //Agregar destinatarios como CCO (copia oculta) para que cada estudiante no vea los otros correos
-        while ($row = $result->fetch_assoc()) {
-            $mail->addBCC($row['email']);
+        $mail->setFrom(GMAIL_USER, 'IFTS 4');
+        $mail->isHTML(true);
+        $mail->Subject = $asunto;
+        $mail->Body    = nl2br($mensaje);
+
+        // Agregar todos como copia oculta (BCC)
+        foreach ($destinatarios as $d) {
+            $enlaceBaja = 'https://ifts4.edu.ar/newsletter/newsletter_unsuscribe.php?token=' . $d['unsuscribe_token'];      //enlace para desuscribirse
+
+            $mensajePersonalizado = nl2br($mensaje) . "<hr><p style='font-size: small;'>Si no querés recibir más correos, podés <a href='$enlaceBaja'>desuscribirte aquí</a>.</p>";
+
+            $mail->clearAllRecipients(); // limpia antes de enviar a cada uno
+            $mail->addAddress($d['email']);
+            $mail->Body = $mensajePersonalizado;
+            $mail->send();
         }
 
-        $mail->send();                          //Enviar el correo
-        echo "Newsletter enviado.";
+
+        $mail->send();
+        echo "Newsletter enviado a " . count($destinatarios) . " suscriptores.";
     } catch (Exception $e) {
-        echo "Error: {$mail->ErrorInfo}";
+        echo "Error al enviar: {$mail->ErrorInfo}";
     }
 }
 ?>
 
-<!-- Formulario HTML para que el administrativo redacte y envíe el newsletter. -->
+<!-- Formulario de redacción del newsletter -->
+<h2>Enviar Newsletter</h2>
 <form method="POST">
     <label>Asunto:</label><br>
     <input type="text" name="asunto" required><br><br>
+
     <label>Mensaje:</label><br>
-    <textarea name="mensaje" rows="10" required></textarea><br><br>
+    <textarea name="mensaje" rows="10" style="width: 100%;" required></textarea><br><br>
+
     <button type="submit">Enviar Newsletter</button>
 </form>
+

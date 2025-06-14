@@ -3,21 +3,22 @@ require 'includes/db.php';
 require 'includes/auth.php';
 requireLogin(); // Asegura que haya sesión iniciada
 
-$rol = getUserRole();
+$rol = getUserRole();   //definido en auth.php
 
 if (!in_array($rol, ['administrativo', 'profesor'])) {
     exit("Acceso denegado.");
 }
 
-// Si el usuario es profesor, mostrar solo estudiantes suscriptos
 if ($rol === 'profesor') {
-    $sql = "SELECT nombre, apellido, email FROM usuarios WHERE rol = 'estudiante' AND newsletter = 1 AND activo = 1";
+    // Profesores ven estudiantes suscriptos y activos
+    $stmt = $conn->prepare("SELECT nombre, apellido, email FROM usuarios WHERE rol = 'estudiante' AND newsletter = 1 AND activo = 1");
 } else {
-    // Administrativo ve todos
-    $sql = "SELECT id_usuario, nombre, apellido, email, rol, activo, newsletter FROM usuarios";
+    // Administrativos ven todo
+    $stmt = $conn->prepare("SELECT id_usuario, nombre, apellido, email, rol, activo, newsletter FROM usuarios");
 }
 
-$resultado = $conn->query($sql);
+$stmt->execute();
+$usuarios = $stmt->fetchAll();
 ?>
 
 <h2>Listado de usuarios</h2>
@@ -33,7 +34,7 @@ $resultado = $conn->query($sql);
         <?php endif; ?>
     </tr>
 
-    <?php while ($u = $resultado->fetch_assoc()) : ?>
+    <?php foreach ($usuarios as $u) : ?>
         <tr>
             <td><?= $u['nombre'] . ' ' . $u['apellido'] ?></td>
             <td><?= $u['email'] ?></td>
@@ -49,5 +50,6 @@ $resultado = $conn->query($sql);
                 </td>
             <?php endif; ?>
         </tr>
-    <?php endwhile; ?>
+    <?php endforeach; ?>
 </table>
+
