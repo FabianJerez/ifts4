@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-06-2025 a las 01:50:51
+-- Tiempo de generación: 14-06-2025 a las 18:04:28
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -44,6 +44,25 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `nombre`, `apellido`, `email`, `password`, `rol`, `activo`, `estado_aprobacion`, `reset_token`, `reset_expira`, `newsletter`, `fecha_suscripcion`, `unsuscribe_token`) VALUES
+(1, 'Ana', 'García', 'ana.garcia@ifts4.edu.ar', '1234', 'estudiante', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(2, 'Luis', 'Pérez', 'luis.perez@ifts4.edu.ar', '1234', 'estudiante', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(3, 'Camila', 'Díaz', 'camila.diaz@ifts4.edu.ar', '1234', 'estudiante', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(4, 'Martín', 'Romero', 'martin.romero@ifts4.edu.ar', '1234', 'estudiante', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(5, 'Valeria', 'Torres', 'valeria.torres@ifts4.edu.ar', '1234', 'estudiante', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(6, 'Joaquín', 'López', 'joaquin.lopez@ifts4.edu.ar', '1234', 'estudiante', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(7, 'Sofía', 'Martínez', 'sofia.martinez@ifts4.edu.ar', '1234', 'estudiante', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(8, 'Federico', 'Morales', 'federico.morales@ifts4.edu.ar', '1234', 'estudiante', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(9, 'Lucía', 'Fernández', 'lucia.fernandez@ifts4.edu.ar', '1234', 'estudiante', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(10, 'Nicolás', 'Castro', 'nicolas.castro@ifts4.edu.ar', '1234', 'estudiante', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(11, 'Carlos', 'Vega', 'carlos.vega@ifts4.edu.ar', '1234', 'profesor', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(12, 'María', 'Benítez', 'maria.benitez@ifts4.edu.ar', '1234', 'profesor', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL),
+(13, 'Administrador', 'General', 'admin@ifts4.edu.ar', '1234', 'administrativo', 1, 'aprobado', NULL, NULL, 0, '2025-06-14 13:03:40', NULL);
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -61,7 +80,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

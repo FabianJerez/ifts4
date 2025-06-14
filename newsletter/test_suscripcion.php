@@ -3,7 +3,7 @@
 session_start();
 $_SESSION['id_usuario'] = 3;        // Usá un ID real
 $_SESSION['rol'] = 'estudiante';
-$_SESSION['nombre'] = 'Juan bocho';
+$_SESSION['nombre'] = 'Juan';
 ?>
 
 <!DOCTYPE html>

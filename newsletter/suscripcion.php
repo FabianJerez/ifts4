@@ -44,6 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$yaSuscripto) {
 <?php else: ?>
     <form method="POST">
         <p>¿Querés recibir noticias y novedades del IFTS por correo electrónico?</p>
-        <button type="submit">📩 Suscribirme</button>
+        <button type="submit">Suscribirme</button>
     </form>
 <?php endif; ?>

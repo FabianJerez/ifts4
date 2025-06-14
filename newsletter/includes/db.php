@@ -1,8 +1,10 @@
 <?php
 $host = 'localhost';
 $db   = 'ifts4';                // nombre de tu base de datos
-$user = 'usuario';
-$pass = 'contraseña';
+// $user = 'usuario';
+// $pass = 'contraseña';
+$user = 'root';
+$pass = '';                     // sin contraseña
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
