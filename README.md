@@ -1,4 +1,4 @@
-#2 Requerimientos
+# 2 Requerimientos
 - Base de estudiantes para envíos de mensajes
 - PHP CSS eventos JS 
 - Tres tipos de usuarios, estudiantes, profesores, administrativos 
