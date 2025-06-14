@@ -23,11 +23,11 @@ requireLogin();
 
         <?php if (esAdministrativo()) : ?>
             <li><a href="usuarios.php">Ver todos los usuarios</a></li>
-            <li><a href="enviar_newsletter.php">📧 Enviar Newsletter</a></li>
+            <li><a href="enviar_newsletter.php">Enviar Newsletter</a></li>
             <li><a href="cron_baja.php">Ejecutar baja automática</a></li>
         <?php endif; ?>
 
-        <li><a href="logout.php">🚪 Cerrar sesión</a></li>
+        <li><a href="logout.php">Cerrar sesión</a></li>
     </ul>
 </body>
 </html>
