@@ -1,5 +1,5 @@
 <?php
-require 'includes/auth.php';
+require 'newsletter/includes/auth.php';
 requireLogin();
 ?>
 
@@ -14,17 +14,17 @@ requireLogin();
 
     <ul>
         <?php if (esEstudiante()) : ?>
-            <li><a href="suscripcion.php">Suscribirme al Newsletter</a></li>
+            <li><a href="newsletter/suscripcion.php">Suscribirme al Newsletter</a></li>
         <?php endif; ?>
 
         <?php if (esProfesor()) : ?>
-            <li><a href="usuarios.php">Ver estudiantes suscriptos</a></li>
+            <li><a href="newsletter/usuarios.php">Ver estudiantes suscriptos</a></li>
         <?php endif; ?>
 
         <?php if (esAdministrativo()) : ?>
-            <li><a href="usuarios.php">Ver todos los usuarios</a></li>
-            <li><a href="enviar_newsletter.php">Enviar Newsletter</a></li>
-            <li><a href="cron_baja.php">Ejecutar baja automática</a></li>
+            <li><a href="newsletter/usuarios.php">Ver todos los usuarios</a></li>
+            <li><a href="newsletter/enviar_newsletter.php">Enviar Newsletter</a></li>
+            <li><a href="newsletter/cron_baja.php">Ejecutar baja automática</a></li>
         <?php endif; ?>
 
         <li><a href="logout.php">Cerrar sesión</a></li>

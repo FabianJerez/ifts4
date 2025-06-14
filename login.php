@@ -1,5 +1,5 @@
 <?php
-require 'includes/db.php';
+require 'newsletter/includes/db.php';
 session_start();
 
 $mensaje = '';
