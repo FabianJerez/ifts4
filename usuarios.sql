@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-06-2025 a las 21:24:17
+-- Tiempo de generación: 14-06-2025 a las 01:50:51
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -39,7 +39,8 @@ CREATE TABLE `usuarios` (
   `reset_token` varchar(64) DEFAULT NULL,
   `reset_expira` bigint(20) DEFAULT NULL,
   `newsletter` tinyint(1) NOT NULL DEFAULT 0,
-  `fecha_suscripcion` datetime NOT NULL DEFAULT current_timestamp()
+  `fecha_suscripcion` datetime NOT NULL DEFAULT current_timestamp(),
+  `unsuscribe_token` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
