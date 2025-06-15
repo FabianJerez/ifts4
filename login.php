@@ -1,6 +1,5 @@
 <?php
-require 'newsletter/includes/db.php';
-session_start();
+require_once __DIR__ . '/newsletter/includes/db.php';
 
 $mensaje = '';
 
@@ -47,5 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <button type="submit">Ingresar</button>
     </form>
+    <form action="registro.php" method="get" style="margin-top: 10px;">
+        <button type="submit">Registrarse</button>
+    </form>
+
 </body>
 </html>

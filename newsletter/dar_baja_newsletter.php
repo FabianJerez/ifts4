@@ -1,6 +1,8 @@
 <?php
-require 'includes/db.php';
-require 'includes/auth.php';
+$modo_embebido = true;
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/utils.php';
 
 if (!esAdministrativo()) {
     exit("Acceso denegado");
@@ -18,12 +20,10 @@ if ($id) {
     } else {
         $stmt = $conn->prepare("UPDATE usuarios SET newsletter = 0, unsuscribe_token = NULL WHERE id_usuario = ?");
         $stmt->execute([$id]);
-        echo "El Usuario se desuscribio del newsletter correctamente.";
+        header("Location: ../panel.php?seccion=usuarios");
+        exit;
     }
 } else {
     echo "ID de usuario no proporcionado.";
 }
 ?>
-<br><br>
-<a href="usuarios.php">Volver al listado</a>
-

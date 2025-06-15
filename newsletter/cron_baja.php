@@ -1,10 +1,16 @@
 <?php
-require 'includes/db.php';
-require 'includes/utils.php';
+$modo_embebido = $modo_embebido ?? false;
 
-// Opcional: control de acceso
-require 'includes/auth.php';
-if (getUserRole() !== 'administrativo') exit("Acceso denegado");
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/utils.php';
+
+if (!$modo_embebido) {
+    require_once __DIR__ . '/includes/auth.php';
+
+    if (getUserRole() !== 'administrativo') {  //control de acceso
+        exit("Acceso denegado");
+    }
+}
 
 // Ejecutar y mostrar bajas
 $bajas = verificarYDarBajaAutomatica($conn);
@@ -31,13 +37,6 @@ $bajas = verificarYDarBajaAutomatica($conn);
 <?php else : ?>
     <p>No hay usuarios para dar de baja en este momento.</p>
 <?php endif; ?>
-
-<!-- Botón para volver al panel -->
-<div class="volver">
-    <a href="../panel.php" style="text-decoration: none;">
-        <button style="padding: 5px 10px; font-size: 16px;">Volver al Panel</button>
-    </a>
-</div>
 
 </body>
 </html>

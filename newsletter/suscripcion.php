@@ -1,7 +1,7 @@
 <?php
-require 'includes/db.php';
-require 'includes/auth.php';
-
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/utils.php';
 requireLogin(); // Verifica que haya sesión
 
 if (!esEstudiante()) {
@@ -47,10 +47,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$yaSuscripto) {
         <button type="submit">Suscribirme</button>
     </form>
 <?php endif; ?>
-<!-- boton para volver al panel -->
-<br>
-<div style="text-align: left;">
-    <a href="../panel.php" style="text-decoration: none;">
-        <button style="padding: 5px 10px; font-size: 16px;">Volver al Panel</button>
-    </a>
-</div>

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/auth.php';
 session_start();                    // Necesario para usar $_SESSION en cualquier página
 
 function getUserRole() {            //obtener el rol del usuario logueado

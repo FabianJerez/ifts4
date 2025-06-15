@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/auth.php';
+
 function verificarYDarBajaAutomatica($conn) {
     // Buscar usuarios que cumplan con el criterio de baja
     $sqlSelect = "
@@ -31,3 +33,4 @@ function verificarYDarBajaAutomatica($conn) {
 function generarToken($longitud = 32) {
     return bin2hex(random_bytes($longitud / 2));
 }
+?>

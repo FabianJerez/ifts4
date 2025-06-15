@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/auth.php';
+
 $host = 'localhost';
 $db   = 'ifts4';                // nombre de tu base de datos
 // $user = 'usuario';

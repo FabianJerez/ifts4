@@ -1,7 +1,7 @@
 <?php
-require 'includes/db.php';
-require 'includes/auth.php';
-require 'includes/utils.php';
+require_once  'includes/db.php';
+require_once __DIR__ . '/auth.php';
+require_once  'includes/utils.php';
 
 if (getUserRole() === 'administrativo') {//antes de listar se da de baja (automatica) si pasaron mas de 4 años desde la fecha de suscripcion
     verificarYDarBajaAutomatica($conn);
