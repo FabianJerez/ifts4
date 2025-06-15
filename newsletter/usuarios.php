@@ -17,32 +17,29 @@ if (!in_array($rol, ['administrativo', 'profesor'])) {
 
 $campo = $_GET['campo'] ?? 'nombre_completo';
 $buscar = $_GET['buscar'] ?? '';
-$where = '';
+$condiciones = [];
 $parametros = [];
 
 if (!empty($buscar)) {
     if ($campo === 'nombre_completo') {
-        $where = "WHERE CONCAT(nombre, ' ', apellido) LIKE ?";
+        $condiciones[] = "CONCAT(nombre, ' ', apellido) LIKE ?";
         $parametros[] = "%$buscar%";
     } elseif ($campo === 'email') {
-        $where = "WHERE email LIKE ?";
+        $condiciones[] = "email LIKE ?";
         $parametros[] = "%$buscar%";
     }
 }
-
 if ($rol === 'profesor') {
     $sql = "SELECT nombre, apellido, email FROM usuarios WHERE rol = 'estudiante' AND newsletter = 1 AND activo = 1";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $usuarios = $stmt->fetchAll();
-
+    
 } elseif ($rol === 'administrativo') {
-    $baseSql = "SELECT id_usuario, nombre, apellido, email, rol, activo, newsletter, fecha_suscripcion FROM usuarios $where";
-    $sql = $baseSql;
+    $sql = "SELECT id_usuario, nombre, apellido, email, rol, activo, newsletter, fecha_suscripcion FROM usuarios";
 
-    // Solo aplicar filtro si hay búsqueda
-    if (!empty($where)) {
-        $sql .= " $where";
+    if (!empty($condiciones)) {
+        $sql .= " WHERE " . implode(" AND ", $condiciones);
     }
 
     $stmt = $conn->prepare($sql);
@@ -131,7 +128,3 @@ if ($rol === 'profesor') {
         </a>
     </div>
 <?php endif; ?>
-
-
-
-
