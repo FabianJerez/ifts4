@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->clearAllRecipients();
             $mail->addAddress($d['email']);
 
-            $enlaceBaja = "http://localhost/ifts4/newsletter/newsletter_unsuscribe.php?token=" . $d['unsuscribe_token'];//en el caso de la pagina web sera 
+            $enlaceBaja = NEWSLETTER_BASE_URL . "newsletter_unsuscribe.php?token=" . $d['unsuscribe_token'];    // en el archivo config.php se debe agregar la url base de la pagina del ifts 4
 
             $mail->Body = nl2br($mensaje) . "<hr><p style='font-size: small;'>Si no queres recibir mas correos, podes <a href='$enlaceBaja'>desuscribirte aqui</a>.</p>";
 
@@ -82,5 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <button type="submit">Enviar Newsletter</button>
 </form>
-
-
+<!-- boton para volver al panel -->
+<br><br>
+<div style="text-align: left;">
+    <a href="../index.php" style="text-decoration: none;">
+        <button style="padding: 5px 10px; font-size: 16px;">Volver al Panel</button>
+    </a>
+</div>

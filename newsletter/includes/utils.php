@@ -1,15 +1,33 @@
 <?php
-function verificarYDarBajaAutomatica($conn) {//si pasan mas de 4 años se da de baja del newsletter
-    $sql = "
-        UPDATE usuarios 
-        SET newsletter = 0 
+function verificarYDarBajaAutomatica($conn) {
+    // Buscar usuarios que cumplan con el criterio de baja
+    $sqlSelect = "
+        SELECT id_usuario, nombre, apellido, email, fecha_suscripcion
+        FROM usuarios
         WHERE newsletter = 1 
           AND fecha_suscripcion IS NOT NULL 
-          AND fecha_suscripcion < (NOW() - INTERVAL 4 YEAR) 
+          AND fecha_suscripcion < (NOW() - INTERVAL 4 YEAR)
     ";
-    $conn->query($sql);
+    $stmt = $conn->prepare($sqlSelect);
+    $stmt->execute();
+    $bajas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Si hay usuarios para dar de baja, actualizamos
+    if (!empty($bajas)) {
+        $sqlUpdate = "
+            UPDATE usuarios 
+            SET newsletter = 0,
+                unsuscribe_token = NULL
+            WHERE newsletter = 1 
+              AND fecha_suscripcion IS NOT NULL 
+              AND fecha_suscripcion < (NOW() - INTERVAL 4 YEAR)
+        ";
+        $conn->exec($sqlUpdate);
+    }
+
+    return $bajas; // Devuelve array (vacío si no hubo bajas)
 }
+
 function generarToken($longitud = 32) {
     return bin2hex(random_bytes($longitud / 2));
 }
-?>

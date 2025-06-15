@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['id_usuario'] = 2;        // ID real del profesor
+$_SESSION['id_usuario'] = 11;        // ID real del profesor
 $_SESSION['rol'] = 'profesor';
 $_SESSION['nombre'] = 'Ruben';
 ?>
