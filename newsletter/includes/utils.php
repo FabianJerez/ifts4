@@ -9,3 +9,7 @@ function verificarYDarBajaAutomatica($conn) {//si pasan mas de 4 años se da de 
     ";
     $conn->query($sql);
 }
+function generarToken($longitud = 32) {
+    return bin2hex(random_bytes($longitud / 2));
+}
+?>

@@ -9,13 +9,21 @@ if (!esAdministrativo()) {
 $id = $_GET['id'] ?? null;
 
 if ($id) {
-    $stmt = $conn->prepare("UPDATE usuarios SET newsletter = 0, unsuscribe_token = NULL WHERE id_usuario = ?");
+    $stmt = $conn->prepare("SELECT newsletter FROM usuarios WHERE id_usuario = ?");
     $stmt->execute([$id]);
+    $estado = $stmt->fetch();
 
-    echo "Usuario desuscripto del newsletter correctamente.";
+    if ($estado && $estado['newsletter'] == 0) {
+        echo "El usuario ya fue dado de baja del newsletter.";
+    } else {
+        $stmt = $conn->prepare("UPDATE usuarios SET newsletter = 0, unsuscribe_token = NULL WHERE id_usuario = ?");
+        $stmt->execute([$id]);
+        echo "Usuario desuscripto del newsletter correctamente.";
+    }
 } else {
     echo "ID de usuario no proporcionado.";
 }
 ?>
 <br><br>
-<a href="usuarios.php">Volver al listado</a>
+<a href="usuarios.php">⬅ Volver al listado</a>
+

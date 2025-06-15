@@ -22,6 +22,7 @@ $usuarios = $stmt->fetchAll();
 ?>
 
 <h2>Listado de usuarios</h2>
+<h2>Listado de usuarios</h2>
 <table border="1" cellpadding="5">
     <tr>
         <th>Nombre</th>
@@ -30,7 +31,8 @@ $usuarios = $stmt->fetchAll();
             <th>Rol</th>
             <th>Activo</th>
             <th>Suscripto</th>
-            <th>Acciones</th>
+            <th>Alta newsletter</th>
+            <th>Baja newsletter</th>
         <?php endif; ?>
     </tr>
 
@@ -42,9 +44,22 @@ $usuarios = $stmt->fetchAll();
             <?php if ($rol === 'administrativo') : ?>
                 <td><?= $u['rol'] ?></td>
                 <td><?= $u['activo'] ? 'Sí' : 'No' ?></td>
-                <td><?= $u['newsletter'] ? 'Sí' : 'No' ?></td>
+                <td><?= $u['newsletter'] ? 'suscripto' : 'no suscripto' ?></td>
+
+                <!-- Alta newsletter -->
                 <td>
-                    <?php if ($u['activo']) : ?>
+                    <?php if ($u['newsletter']) : ?>
+                        suscripto
+                    <?php else : ?>
+                        <a href="dar_alta_newsletter.php?id=<?= $u['id_usuario'] ?>" onclick="return confirm('¿Volver a suscribir al newsletter?')">Suscribir</a>
+                    <?php endif; ?>
+                </td>
+
+                <!-- Baja newsletter -->
+                <td>
+                    <?php if (!$u['newsletter']) : ?>
+                        dado de baja
+                    <?php else : ?>
                         <a href="dar_baja_newsletter.php?id=<?= $u['id_usuario'] ?>" onclick="return confirm('¿Quitar del newsletter a este usuario?')">Desuscribir</a>
                     <?php endif; ?>
                 </td>
@@ -52,4 +67,5 @@ $usuarios = $stmt->fetchAll();
         </tr>
     <?php endforeach; ?>
 </table>
+
 
