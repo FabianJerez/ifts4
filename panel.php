@@ -1,15 +1,17 @@
 <?php
+require 'newsletter/includes/db.php';
 require 'newsletter/includes/auth.php';
-requireLogin();
+requireLogin(); // Verifica sesión activa
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio Newsletter</title>
+    <title>Panel principal - Newsletter IFTS 4</title>
 </head>
 <body>
+
     <h2>Bienvenido/a, <?= $_SESSION['nombre'] ?> (<?= $_SESSION['rol'] ?>)</h2>
 
     <ul>
@@ -29,5 +31,7 @@ requireLogin();
 
         <li><a href="logout.php">Cerrar sesión</a></li>
     </ul>
+
 </body>
 </html>
+

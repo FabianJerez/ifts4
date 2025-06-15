@@ -103,7 +103,7 @@ $usuarios = $stmt->fetchAll();
 <!-- boton de regreso al panel -->
 <br><br>
 <div style="text-align: left;">
-    <a href="../index.php" style="text-decoration: none;">
+    <a href="../panel.php" style="text-decoration: none;">
         <button style="padding: 5px 10px; font-size: 16px;">Volver al Panel</button>
     </a>
 </div>

@@ -34,7 +34,7 @@ $bajas = verificarYDarBajaAutomatica($conn);
 
 <!-- Botón para volver al panel -->
 <div class="volver">
-    <a href="../index.php" style="text-decoration: none;">
+    <a href="../panel.php" style="text-decoration: none;">
         <button style="padding: 5px 10px; font-size: 16px;">Volver al Panel</button>
     </a>
 </div>
