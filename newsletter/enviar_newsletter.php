@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->clearAllRecipients();
             $mail->addAddress($d['email']);
 
-            $enlaceBaja = "http://localhost/newsletter/newsletter_unsuscribe.php?token=" . $d['unsuscribe_token'];
+            $enlaceBaja = "http://localhost/ifts4/newsletter/newsletter_unsuscribe.php?token=" . $d['unsuscribe_token'];
 
             $mail->Body = nl2br($mensaje) . "<hr><p style='font-size: small;'>Si no querés recibir más correos, podés <a href='$enlaceBaja'>desuscribirte aquí</a>.</p>";
 
