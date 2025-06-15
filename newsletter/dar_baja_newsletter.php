@@ -18,4 +18,4 @@ if ($id) {
 }
 ?>
 <br><br>
-<a href="usuarios.php">⬅ Volver al listado</a>
+<a href="usuarios.php">Volver al listado</a>
