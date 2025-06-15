@@ -57,9 +57,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->clearAllRecipients();
             $mail->addAddress($d['email']);
 
-            $enlaceBaja = NEWSLETTER_BASE_URL . "newsletter_unsuscribe.php?token=" . $d['unsuscribe_token'];    // en el archivo config.php se debe agregar la url base de la pagina del ifts 4
+            $enlaceBaja = NEWSLETTER_BASE_URL . "newsletter_unsuscribe.php?token=" . $d['unsuscribe_token'];//en el archivo config.php se debe agregar la url de la pagina del ifts 4
+            //pie de email editar a gusto
+            $pie = "
+                <br><br>
+                <p style='font-size: 14px; color: #555;'>
+                    Atentamente,<br>
+                    <strong>Bedelía - Instituto de Formación Técnica Superior N°4</strong>
+                </p>
+            ";
 
-            $mail->Body = nl2br($mensaje) . "<hr><p style='font-size: small;'>Si no queres recibir mas correos, podes <a href='$enlaceBaja'>desuscribirte aqui</a>.</p>";
+            $footerDesuscripcion = "
+                <hr>
+                <p style='font-size: small; color: #888;'>
+                    Si no querés recibir más correos, podés 
+                    <a href='$enlaceBaja'>desuscribirte aquí</a>.
+                </p>
+            ";
+
+            $mail->Body = nl2br($mensaje) . $pie . $footerDesuscripcion;
+
 
             $mail->send();
         }
