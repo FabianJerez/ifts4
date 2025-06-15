@@ -45,7 +45,7 @@ $usuarios = $stmt->fetchAll();
                 <td><?= $u['newsletter'] ? 'Sí' : 'No' ?></td>
                 <td>
                     <?php if ($u['activo']) : ?>
-                        <a href="dar_baja.php?id=<?= $u['id_usuario'] ?>" onclick="return confirm('¿Dar de baja a este usuario?')">Baja</a>
+                        <a href="dar_baja_newsletter.php?id=<?= $u['id_usuario'] ?>" onclick="return confirm('¿Quitar del newsletter a este usuario?')">Desuscribir</a>
                     <?php endif; ?>
                 </td>
             <?php endif; ?>
