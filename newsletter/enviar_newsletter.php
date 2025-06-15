@@ -1,29 +1,28 @@
 <?php
-require 'includes/db.php';                     // Conexión PDO a la base 'ifts4'
-require 'includes/auth.php';                   // Manejo de sesión y roles
+require 'includes/db.php';
+require 'includes/auth.php';
 require 'includes/config.php';
-require 'includes/utils.php';                  // Incluye la baja automática
-require 'includes/PHPMailer/PHPMailer.php';    // PHPMailer core
-require 'includes/PHPMailer/Exception.php';    // PHPMailer manejo de errores
-require 'includes/PHPMailer/SMTP.php';         // PHPMailer SMTP
+require 'includes/utils.php';
+require 'includes/PHPMailer/PHPMailer.php';
+require 'includes/PHPMailer/Exception.php';
+require 'includes/PHPMailer/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Verifica que solo un usuario administrativo acceda
+// Solo acceso para usuarios administrativos
 if (!esAdministrativo()) {
     exit("Acceso denegado");
 }
 
-// Baja lógica automática antes de enviar
+// Ejecutar baja automática antes de enviar
 verificarYDarBajaAutomatica($conn);
 
-// Si se envió el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $asunto = $_POST['asunto'] ?? '';
     $mensaje = $_POST['mensaje'] ?? '';
 
-    // Obtener destinatarios con newsletter activo
+    // Obtener los usuarios suscriptos y activos
     $stmt = $conn->prepare("SELECT email, unsuscribe_token FROM usuarios WHERE newsletter = 1 AND activo = 1");
     $stmt->execute();
     $destinatarios = $stmt->fetchAll();
@@ -31,34 +30,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mail = new PHPMailer(true);
 
     try {
-        // Configuración de Gmail
+        // Configuración SMTP para Gmail
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = GMAIL_USER;                   // Recomendación: usar archivo config.php
-        $mail->Password = GMAIL_APP_PASSWORD;        // Contraseña de aplicación
+        $mail->Username = GMAIL_USER;
+        $mail->Password = GMAIL_APP_PASSWORD;
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
+
+        // Corrección para evitar errores de verificación SSL en XAMPP/local
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer'       => false,
+                'verify_peer_name'  => false,
+                'allow_self_signed' => true,
+            ]
+        ];
 
         $mail->setFrom(GMAIL_USER, 'IFTS 4');
         $mail->isHTML(true);
         $mail->Subject = $asunto;
-        $mail->Body    = nl2br($mensaje);
 
-        // Agregar todos como copia oculta (BCC)
+        // Enviar uno a uno con enlace de desuscripción
         foreach ($destinatarios as $d) {
-            $enlaceBaja = 'https://ifts4.edu.ar/newsletter/newsletter_unsuscribe.php?token=' . $d['unsuscribe_token'];      //enlace para desuscribirse
-
-            $mensajePersonalizado = nl2br($mensaje) . "<hr><p style='font-size: small;'>Si no querés recibir más correos, podés <a href='$enlaceBaja'>desuscribirte aquí</a>.</p>";
-
-            $mail->clearAllRecipients(); // limpia antes de enviar a cada uno
+            $mail->clearAllRecipients();
             $mail->addAddress($d['email']);
-            $mail->Body = $mensajePersonalizado;
+
+            $enlaceBaja = "http://localhost/newsletter/newsletter_unsuscribe.php?token=" . $d['unsuscribe_token'];
+
+            $mail->Body = nl2br($mensaje) . "<hr><p style='font-size: small;'>Si no querés recibir más correos, podés <a href='$enlaceBaja'>desuscribirte aquí</a>.</p>";
+
             $mail->send();
         }
 
-
-        $mail->send();
         echo "Newsletter enviado a " . count($destinatarios) . " suscriptores.";
     } catch (Exception $e) {
         echo "Error al enviar: {$mail->ErrorInfo}";
@@ -77,4 +82,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <button type="submit">Enviar Newsletter</button>
 </form>
+
 
