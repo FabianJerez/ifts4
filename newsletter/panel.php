@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__ . '/newsletter/includes/db.php';
-require_once __DIR__ . '/newsletter/includes/auth.php'; 
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/auth.php';
+
 requireLogin();
 $seccion = $_GET['seccion'] ?? null;
 ?>
@@ -44,7 +45,7 @@ $seccion = $_GET['seccion'] ?? null;
             </form>
         <?php endif; ?>
 
-        <form action="logout.php" method="get">
+        <form action="../logout.php" method="get">
             <button type="submit" style="width: 100%; margin-top: 20px;">Cerrar sesión</button>
         </form>
     </nav>
@@ -55,25 +56,25 @@ $seccion = $_GET['seccion'] ?? null;
         switch ($seccion) {
             case 'usuarios':
                 $modo_embebido = true;
-                include 'newsletter/usuarios.php';
+                include __DIR__ . '/usuarios.php';
                 break;
             case 'suscripcion':
-                include 'newsletter/suscripcion.php';
+                include __DIR__ . '/suscripcion.php';
                 break;
             case 'enviar':
                 $modo_embebido = true;
-                include 'newsletter/enviar_newsletter.php';
+                include __DIR__ . '/enviar_newsletter.php';
                 break;
-
             case 'baja_auto':
                 $modo_embebido = true;
-                include 'newsletter/cron_baja.php';
+                include __DIR__ . '/cron_baja.php';
                 break;
             default:
                 echo "<h2>Bienvenido/a al sistema Newsletter del IFTS 4</h2>";
                 echo "<p>Seleccioná una opción del menú lateral para comenzar.</p>";
                 break;
         }
+
         ?>
     </main>
 </div>
