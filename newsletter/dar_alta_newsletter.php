@@ -21,7 +21,7 @@ if ($id) {
         $nuevo_token = generarToken();
         $stmt = $conn->prepare("UPDATE usuarios SET newsletter = 1, unsuscribe_token = ?, fecha_suscripcion = NOW() WHERE id_usuario = ?");
         $stmt->execute([$nuevo_token, $id]);
-        header("Location: ../panel.php?seccion=usuarios");
+        header("Location: panel.php?seccion=usuarios");
         exit;
     }
 } else {

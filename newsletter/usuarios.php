@@ -103,7 +103,7 @@ if ($rol === 'profesor') {
                     <?php if ($u['newsletter']) : ?>
                         suscripto
                     <?php else : ?>
-                        <a href="newsletter/dar_alta_newsletter.php?id=<?= $u['id_usuario'] ?>" onclick="return confirm('¿Volver a suscribir al newsletter?')">Suscribir</a>
+                        <a href="dar_alta_newsletter.php?id=<?= $u['id_usuario'] ?>" onclick="return confirm('¿Volver a suscribir al newsletter?')">Suscribir</a>
                     <?php endif; ?>
                 </td>
 
@@ -111,7 +111,7 @@ if ($rol === 'profesor') {
                     <?php if (!$u['newsletter']) : ?>
                         dado de baja
                     <?php else : ?>
-                        <a href="newsletter/dar_baja_newsletter.php?id=<?= $u['id_usuario'] ?>" onclick="return confirm('¿Quitar del newsletter a este usuario?')">Desuscribir</a>
+                        <a href="dar_baja_newsletter.php?id=<?= $u['id_usuario'] ?>" onclick="return confirm('¿Quitar del newsletter a este usuario?')">Desuscribir</a>
                     <?php endif; ?>
                 </td>
             <?php endif; ?>
