@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['nombre'] = $usuario['nombre'] . ' ' . $usuario['apellido'];
         $_SESSION['rol'] = $usuario['rol'];
 
-        header("Location: panel.php"); // o test_admin.php, según el rol
+        header("Location: newsletter/panel.php"); // o test_admin.php, según el rol
         exit;
     } else {
         $mensaje = "Email o contraseña incorrectos.";
